@@ -14,8 +14,8 @@ Notifica al usuario que reportó la incidencia cada vez que el ticket cambia de 
 ```
 SMTP_HOST = email-smtp.us-east-1.amazonaws.com
 SMTP_PORT = 587
-SMTP_USER = AKIA5TSAYHSG3OD7XYK3
-SMTP_PASS = BPMhIBG4+f4qfob+msLNNH9pYBlB74ERNi/cKXL1N+WI
+SMTP_USER = ${AWS_SES_USER}
+SMTP_PASS = ${AWS_SES_PASSWORD}
 FROM      = mguzman@universidadisep.com
 ```
 
@@ -67,8 +67,8 @@ def notificar_usuario(to_email, asunto, cuerpo_html):
         with smtplib.SMTP("email-smtp.us-east-1.amazonaws.com", 587) as server:
             server.starttls()
             server.login(
-                "AKIA5TSAYHSG3OD7XYK3",
-                "BPMhIBG4+f4qfob+msLNNH9pYBlB74ERNi/cKXL1N+WI"
+                "${AWS_SES_USER}",
+                "${AWS_SES_PASSWORD}"
             )
             server.sendmail("mguzman@universidadisep.com", destinatarios, msg.as_string())
         return True

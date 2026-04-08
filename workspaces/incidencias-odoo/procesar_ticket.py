@@ -50,7 +50,7 @@ if email_usuario:
     msg.attach(MIMEText(cuerpo, "html"))
     with smtplib.SMTP("email-smtp.us-east-1.amazonaws.com", 587) as s:
         s.starttls()
-        s.login("AKIA5TSAYHSG3OD7XYK3", "BPMhIBG4+f4qfob+msLNNH9pYBlB74ERNi/cKXL1N+WI")
+        s.login("${AWS_SES_USER}", "${AWS_SES_PASSWORD}")
         s.sendmail("mguzman@universidadisep.com", [email_usuario, "iallamadas@universidadisep.com"], msg.as_string())
     print(f"Correo enviado a {email_usuario}")
 else:

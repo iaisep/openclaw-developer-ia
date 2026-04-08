@@ -18,8 +18,8 @@ ODOO_PASS = "${ODOO_RPC_PASSWORD}"
 
 SMTP_HOST = "email-smtp.us-east-1.amazonaws.com"
 SMTP_PORT = 587
-SMTP_USER = "AKIA5TSAYHSG3OD7XYK3"
-SMTP_PASS = "BPMhIBG4+f4qfob+msLNNH9pYBlB74ERNi/cKXL1N+WI"
+SMTP_USER = "${AWS_SES_USER}"
+SMTP_PASS = "${AWS_SES_PASSWORD}"
 FROM_EMAIL = "mguzman@universidadisep.com"
 RECIPIENTS = [
     "iallamadas@universidadisep.com",

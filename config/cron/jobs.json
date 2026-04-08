@@ -8,7 +8,7 @@
       "description": "Revisión autónoma de tickets de fusión de duplicados y corrección de credenciales cada 30 minutos",
       "enabled": true,
       "createdAtMs": 1774566885906,
-      "updatedAtMs": 1775675707576,
+      "updatedAtMs": 1775677525678,
       "schedule": {
         "kind": "every",
         "everyMs": 1800000,
@@ -27,15 +27,14 @@
         "channel": "last"
       },
       "state": {
-        "nextRunAtMs": 1775677491231,
-        "lastRunAtMs": 1775675691231,
+        "nextRunAtMs": 1775679291232,
+        "lastRunAtMs": 1775677491232,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 16345,
+        "lastDurationMs": 34446,
         "lastDelivered": false,
         "lastDeliveryStatus": "not-delivered",
-        "consecutiveErrors": 0,
-        "runningAtMs": 1775677491231
+        "consecutiveErrors": 0
       }
     }
   ]

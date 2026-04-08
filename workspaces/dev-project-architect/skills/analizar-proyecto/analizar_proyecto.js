@@ -15,8 +15,8 @@ const ODOO_PASS = "${ODOO_RPC_PASSWORD}";
 
 const SMTP_HOST = "email-smtp.us-east-1.amazonaws.com";
 const SMTP_PORT = 587;
-const SMTP_USER = "AKIA5TSAYHSG3OD7XYK3";
-const SMTP_PASS = "BPMhIBG4+f4qfob+msLNNH9pYBlB74ERNi/cKXL1N+WI";
+const SMTP_USER = "${AWS_SES_USER}";
+const SMTP_PASS = "${AWS_SES_PASSWORD}";
 const FROM_EMAIL = "mguzman@universidadisep.com";
 const RECIPIENTS = [
     "iallamadas@universidadisep.com",
