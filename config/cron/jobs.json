@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "jobs": [
+    {
+      "id": "525ef564-9e1e-4a91-868c-102180bb06bc",
+      "agentId": "incidencias-odoo",
+      "name": "incidencias-autonomas",
+      "description": "Revisión autónoma de tickets de fusión de duplicados y corrección de credenciales cada 30 minutos",
+      "enabled": true,
+      "createdAtMs": 1774566885906,
+      "updatedAtMs": 1775675707576,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 1800000,
+        "anchorMs": 1774566885906
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Eres el agente de incidencias Odoo. Ejecuta el siguiente flujo autónomo:\n\n1. Lee TODOS los tickets pendientes desde la réplica PostgreSQL (servidor .57):\n   ssh -o StrictHostKeyChecking=no -i /.keys/odoo-dev.pem root@189.195.191.16 \"docker exec postgres-replica-i4s8o8000kc040cgwcwowwwc psql -U odoo -d UisepFinal -t -A -F'|' -c 'SELECT pt.id, pt.name, pt.description FROM project_task pt WHERE pt.project_id=53 AND pt.stage_id=564 AND pt.active=true ORDER BY pt.id ASC LIMIT 50'\"\n\n2. Clasifica CADA ticket de la lista:\n   - FUSIÓN DE DUPLICADOS: descripción menciona 'duplicado', 'dos perfiles', 'dos cuentas', 'dos usuarios', 'no puede ver', 'perfil incorrecto', 'datos divididos'\n   - CORRECCIÓN DE CREDENCIAL: descripción menciona 'credencial', 'programa incorrecto', 'muestra programa antiguo', 'carnet', 'diploma incorrecto'\n   - OTRO: dejar en Pendiente sin tocar\n\n3. IMPORTANTE — Procesa TODOS los tickets clasificados, uno por uno, en orden. No te detengas después del primero. Por cada ticket clasificado:\n   a. Carga la skill correspondiente (fusion-contactos-duplicados o correccion-credencial-estudiante)\n   b. Sigue el procedimiento completo de la skill\n   c. Ejecuta los 3 pasos obligatorios de SOUL.md: cambiar stage → nota chatter → enviar correo al solicitante @universidadisep.com\n\n4. Al finalizar, reporta un resumen de cuántos tickets procesaste y el resultado de cada uno.\n\n5. Si no hay tickets clasificables, terminar silenciosamente.",
+        "model": "minimax-portal/MiniMax-M2.5",
+        "timeoutSeconds": 600
+      },
+      "delivery": {
+        "mode": "none",
+        "channel": "last"
+      },
+      "state": {
+        "nextRunAtMs": 1775677491231,
+        "lastRunAtMs": 1775675691231,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 16345,
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered",
+        "consecutiveErrors": 0,
+        "runningAtMs": 1775677491231
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "nodemailer": "^8.0.4",
+    "xmlrpc": "^1.3.2"
+  }
+}

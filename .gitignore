@@ -1,0 +1,55 @@
+# =============================================================
+# EXCLUIDOS: archivos de ejecución, logs y secrets
+# Solo se sincronizan cambios importantes de configuración,
+# agentes y código fuente.
+# =============================================================
+
+# --- Secrets y credenciales ---
+.env
+config/identity/
+config/devices/
+config/exec-approvals.json
+config/agents/*/agent/auth-profiles.json
+config/agents/*/agent/auth-state.json
+
+# --- Runs de cron (logs de ejecución) ---
+config/cron/runs/
+
+# --- Logs y datos de ejecución en tiempo real ---
+sessions/
+config/logs/
+config/tasks/
+config/subagents/runs.json
+config/update-check.json
+memory/analisis.log
+
+# --- Backups generados automáticamente ---
+*.bak
+*.bak.*
+
+# --- Archivos de heartbeat (se actualizan cada ejecución) ---
+**/HEARTBEAT.md
+
+# --- Estado de workspace en tiempo real ---
+**/.openclaw/workspace-state.json
+
+# --- Logs de crons y scripts ---
+**/cron/cron.log
+**/cron/__pycache__/
+**/metadata/errors.log
+
+# --- Dependencias Node.js ---
+node_modules/
+**/node_modules/
+
+# --- Python cache ---
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+
+# --- Archivos compilados/temporales ---
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+tmp/

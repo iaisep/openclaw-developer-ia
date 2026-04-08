@@ -1,0 +1,59 @@
+services:
+  openclaw-developer-ia:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: openclaw-developer-ia
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:18797:18789"
+    volumes:
+      # Config principal
+      - ./config:/root/.openclaw
+      # Workspace del agente principal
+      - ./workspace:/root/.openclaw/workspace
+      # Sessions del agente principal
+      - ./sessions:/root/.openclaw/agents/main/sessions
+      # Workspaces de sub-agentes Odoo
+      - ./workspaces/dev-odoo-github:/root/.openclaw/workspaces/dev-odoo-github
+      - ./workspaces/dev-odoo-local:/root/.openclaw/workspaces/dev-odoo-local
+      - ./workspaces/devops-odoo:/root/.openclaw/workspaces/devops-odoo
+      - ./workspaces/incidencias-odoo:/root/.openclaw/workspaces/incidencias-odoo
+      - ./workspaces/dev-distrib-local:/root/.openclaw/workspaces/dev-distrib-local
+      - ./workspaces/dev-validator-deploydev:/root/.openclaw/workspaces/dev-validator-deploydev
+      - ./workspaces/dev-project-creator:/root/.openclaw/workspaces/dev-project-creator
+      - ./workspaces/dev-project-architect:/root/.openclaw/workspaces/dev-project-architect
+      # Acceso al repo y addons de odoo-migration (dev-odoo-local)
+      - /data/odoo-migration/odoo16/addons-extra:/mnt/odoo-migration-addons
+      # Exportación de cambios locales (dev-odoo-local)
+      - /home/maikel/cambios_odoo_local:/mnt/cambios-odoo-local
+      # Llave SSH para servidor DEV/.57 (dev-odoo-github, incidencias-odoo, devops-odoo)
+      - /.github/keysssh/57/newinstallodoo16.pem:/.keys/odoo-dev.pem:ro
+      # NOTA: Docker socket REMOVIDO intencionalmente — el bot NO debe poder
+      # reiniciar/matar su propio contenedor. OpenClaw tiene hot-reload.
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - TZ=America/Bogota
+    networks:
+      - openclaw-net
+      - ollama-net
+      - mattermost-net
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:18789/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+networks:
+  openclaw-net:
+    external: true
+    name: openclaw-net
+  ollama-net:
+    external: true
+    name: fw8g04s0w0kcc08008owskok
+  mattermost-net:
+    external: true
+    name: r0kgo8o8wg40okg00sgcgsgc

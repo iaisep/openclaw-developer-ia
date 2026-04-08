@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reporte Dev Project Creator</title>
+  <style>
+    body {
+      margin: 0; padding: 0;
+      background-color: #f0f2f5;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #1a1a2e;
+    }
+    .wrapper {
+      max-width: 680px;
+      margin: 32px auto;
+      background: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    }
+    /* HEADER */
+    .header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+      padding: 36px 40px 28px;
+      text-align: center;
+    }
+    .header .emoji { font-size: 48px; display: block; margin-bottom: 10px; }
+    .header h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      color: #e0e0e0;
+      letter-spacing: 0.5px;
+    }
+    .header p {
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: #90caf9;
+    }
+    /* BADGE RESUMEN */
+    .summary-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      background: #f8f9fc;
+      border-bottom: 1px solid #e8eaf0;
+    }
+    .summary-item {
+      flex: 1;
+      text-align: center;
+      padding: 20px 10px;
+      border-right: 1px solid #e8eaf0;
+    }
+    .summary-item:last-child { border-right: none; }
+    .summary-item .num {
+      font-size: 32px;
+      font-weight: 800;
+      color: #0f3460;
+      line-height: 1;
+      display: block;
+    }
+    .summary-item .num.green { color: #2e7d32; }
+    .summary-item .num.orange { color: #e65100; }
+    .summary-item .num.red { color: #c62828; }
+    .summary-item .label {
+      font-size: 11px;
+      color: #757575;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      display: block;
+    }
+    /* BODY */
+    .body { padding: 32px 40px; }
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #0f3460;
+      margin: 0 0 14px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #e3f2fd;
+    }
+    /* CARD PROYECTO */
+    .project-card {
+      background: #f8f9fc;
+      border: 1px solid #e3e8f0;
+      border-left: 4px solid #1565c0;
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+    }
+    .project-card.from-pote { border-left-color: #6a1b9a; }
+    .project-card.error { border-left-color: #c62828; background: #fff8f8; }
+    .project-card .proj-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin: 0 0 6px;
+    }
+    .project-card .meta {
+      font-size: 12px;
+      color: #546e7a;
+      margin: 3px 0;
+    }
+    .project-card .meta span {
+      display: inline-block;
+      background: #e3f2fd;
+      color: #0d47a1;
+      border-radius: 4px;
+      padding: 1px 7px;
+      font-weight: 600;
+      margin-left: 4px;
+    }
+    .project-card.from-pote .meta span {
+      background: #f3e5f5;
+      color: #6a1b9a;
+    }
+    .project-card.error .meta span {
+      background: #ffebee;
+      color: #c62828;
+    }
+    .badge-source {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-bottom: 6px;
+    }
+    .badge-incidencias {
+      background: #e3f2fd;
+      color: #1565c0;
+    }
+    .badge-pote {
+      background: #f3e5f5;
+      color: #6a1b9a;
+    }
+    .stages-list {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .stage-chip {
+      font-size: 10px;
+      background: #ffffff;
+      border: 1px solid #cfd8dc;
+      color: #455a64;
+      border-radius: 12px;
+      padding: 2px 8px;
+    }
+    .task-list {
+      margin-top: 8px;
+      padding-left: 0;
+      list-style: none;
+    }
+    .task-list li {
+      font-size: 12px;
+      color: #37474f;
+      padding: 3px 0;
+      border-bottom: 1px solid #eceff1;
+    }
+    .task-list li:last-child { border-bottom: none; }
+    .task-list li::before { content: "✔ "; color: #1565c0; font-weight: bold; }
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 28px 20px;
+      color: #90a4ae;
+      font-size: 14px;
+      background: #f8f9fc;
+      border-radius: 8px;
+      border: 1px dashed #cfd8dc;
+      margin-bottom: 12px;
+    }
+    .empty-state .big { font-size: 30px; display: block; margin-bottom: 6px; }
+    /* FOOTER */
+    .footer {
+      background: #f0f2f5;
+      text-align: center;
+      padding: 20px 40px;
+      border-top: 1px solid #e0e0e0;
+    }
+    .footer p {
+      margin: 0;
+      font-size: 11px;
+      color: #9e9e9e;
+      line-height: 1.7;
+    }
+    .footer strong { color: #546e7a; }
+    /* DIVIDER */
+    .divider { height: 1px; background: #e8eaf0; margin: 24px 0; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="header">
+    <span class="emoji">🏗️</span>
+    <h1>Dev Project Creator — Reporte de Ronda</h1>
+    <p>{{FECHA_HORA}} &nbsp;·&nbsp; Universidad ISEP</p>
+  </div>
+
+  <!-- SUMMARY BAR -->
+  <div class="summary-bar">
+    <div class="summary-item">
+      <span class="num green">{{TOTAL_CREADOS}}</span>
+      <span class="label">Proyectos creados</span>
+    </div>
+    <div class="summary-item">
+      <span class="num">{{TOTAL_INCIDENCIAS}}</span>
+      <span class="label">Desde Incidencias</span>
+    </div>
+    <div class="summary-item">
+      <span class="num" style="color:#6a1b9a;">{{TOTAL_POTE}}</span>
+      <span class="label">Desde Pote</span>
+    </div>
+    <div class="summary-item">
+      <span class="num red">{{TOTAL_ERRORES}}</span>
+      <span class="label">Errores</span>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- PROYECTOS CREADOS -->
+    <div class="section-title">Proyectos creados en esta ronda</div>
+
+    {{PROYECTOS_BLOQUE}}
+
+    <div class="divider"></div>
+
+    <!-- ERRORES -->
+    {{ERRORES_BLOQUE}}
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>
+      Generado automáticamente por <strong>Dev Project Creator 🏗️</strong><br/>
+      Ejecución programada cada 2 horas &nbsp;·&nbsp; Odoo 16 — UisepFinal<br/>
+      <strong>Universidad ISEP</strong> — Dirección de TI
+    </p>
+  </div>
+
+</div>
+</body>
+</html>

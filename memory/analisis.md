@@ -1,0 +1,53 @@
+- [2026-03-30 14:57] 'Automatización de análisis de logs de Odoo16' (ID:142) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 14:57] 'Error en creación de contenidos académicos en Odoo' (ID:143) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 15:10] 'Automatización de análisis de logs de Odoo16' (ID:142) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 15:10] 'Error en creación de contenidos académicos en Odoo' (ID:143) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 15:22] 'Error en creación de contenido Odoo Académico' (ID:145) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 15:22] 'Error en automatización de logs Odoo16' (ID:144) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 16:00] 'Implementación Módulo MET Titulación en Odoo 16' (ID:146) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:07] 'Optimización flujo de matrícula y becas en eCommerce' (ID:136) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:07] 'Pagina ISEP Wordpress' (ID:69) → wordpress | La descripción menciona contenido web, landing pages o portales públicos. WordPress es la herramient
+- [2026-03-30 17:07] 'automatizacion masiva de asignaturas' (ID:140) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:07] 'Landing Page Dinámica en React para captación publicitaria' (ID:112) → mautic | La descripción corresponde a automatizaciones de marketing, campañas de email, embudos de leads o se
+- [2026-03-30 17:07] 'Mejora de descarga de materiales académicos en Odoo' (ID:132) → desarrollos-apis | La descripción no encaja claramente en ninguna herramienta específica del stack, o requiere una inte
+- [2026-03-30 17:07] 'BUG #19 - sale_order_line sin admission_id vinculada (CRÍTICO)' (ID:104) → desarrollos-apis | La descripción no encaja claramente en ninguna herramienta específica del stack, o requiere una inte
+- [2026-03-30 17:07] 'Habilitación multimedia en bot de Admisiones (flujo inactivo)' (ID:71) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:07] 'BUG #3 - Server Action recursivo con OdooBot' (ID:107) → desarrollos-apis | La descripción no encaja claramente en ninguna herramienta específica del stack, o requiere una inte
+- [2026-03-30 17:07] 'Automatización Triggers Post-Inscripción' (ID:91) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:07] 'BUG #8 - Emails duplicados por case-sensitivity (CRÍTICO)' (ID:101) → desarrollos-apis | La descripción no encaja claramente en ninguna herramienta específica del stack, o requiere una inte
+- [2026-03-30 17:07] 'Pagos de inscripciones con descuentos duplicados y no generando facturas' (ID:128) → odoo | La funcionalidad descrita requiere acceso directo a modelos de datos de Odoo con transacciones ACID 
+- [2026-03-30 17:07] 'BUG #6 - Recurrence_id sin validación de producto' (ID:108) → desarrollos-apis | La descripción no encaja claramente en ninguna herramienta específica del stack, o requiere una inte
+- [2026-03-30 17:07] 'BUG #24 - payment_state delayed update en facturas (CRÍTICO)' (ID:106) → odoo | La funcionalidad descrita requiere acceso directo a modelos de datos de Odoo con transacciones ACID 
+- [2026-03-30 17:07] 'Separación de pagos de Titulación y Prácticas en Odoo' (ID:85) → odoo | La funcionalidad descrita requiere acceso directo a modelos de datos de Odoo con transacciones ACID 
+- [2026-03-30 17:07] 'BUG #22 - OOM kill al guardar Ajustes (fix permanente)' (ID:110) → desarrollos-apis | La descripción no encaja claramente en ninguna herramienta específica del stack, o requiere una inte
+- [2026-03-30 17:07] 'Correcciones y Modificaciones Página Tv Calma Celesti' (ID:138) → desarrollos-apis | La descripción no encaja claramente en ninguna herramienta específica del stack, o requiere una inte
+- [2026-03-30 17:07] 'BUG #21 - Requisito AP50 no se persiste automáticamente' (ID:105) → desarrollos-apis | La descripción no encaja claramente en ninguna herramienta específica del stack, o requiere una inte
+- [2026-03-30 17:07] 'Estandarización CURP para Extranjeros en Odoo' (ID:87) → desarrollos-apis | La descripción no encaja claramente en ninguna herramienta específica del stack, o requiere una inte
+- [2026-03-30 17:07] 'BUG #13 - Citas no se crean después de pagar' (ID:109) → desarrollos-apis | La descripción no encaja claramente en ninguna herramienta específica del stack, o requiere una inte
+- [2026-03-30 17:07] 'Chats USA' (ID:100) → chatwoot | La descripción involucra gestión de conversaciones, atención al cliente o canales de comunicación. C
+- [2026-03-30 17:08] 'Error: Odoo no reconoce pago de prórroga' (ID:95) → desarrollos-apis | La descripción no encaja claramente en ninguna herramienta específica del stack, o requiere una inte
+- [2026-03-30 17:08] 'Automatización cierre de libretas' (ID:81) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Diagnóstico y Optimización del Servicio de Asistencia por Tickets con IA en n8n' (ID:131) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Automatización agendamiento citas asesoría Odoo' (ID:86) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Actualización Retroactiva Requisitos Titulación' (ID:77) → odoo | La funcionalidad descrita requiere acceso directo a modelos de datos de Odoo con transacciones ACID 
+- [2026-03-30 17:08] 'Bot WhatsApp - Envío Multimedia' (ID:61) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'creacion agentes marketing openclaw (copia)' (ID:137) → chatwoot | La descripción involucra gestión de conversaciones, atención al cliente o canales de comunicación. C
+- [2026-03-30 17:08] 'Automatización Integral de Atención Telefónica para Universidad ISEP' (ID:130) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Automatización de leads de webinar a Chatwoot en tiempo real' (ID:133) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Automatización de emisión y gestión de documentos académicos intermedios con IA en Odoo' (ID:129) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Automatización de gestión y entrega de certificados electrónicos' (ID:55) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Automatización y simplificación de recopilación de datos de estudiantes' (ID:76) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Automatización de Prospección de Leads' (ID:59) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Automatización y simplificación de recopilación de datos de estudiantes' (ID:88) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Automatización firma matrícula post-pago' (ID:80) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Certificados Electrónicos' (ID:96) → desarrollos-apis | La descripción no encaja claramente en ninguna herramienta específica del stack, o requiere una inte
+- [2026-03-30 17:08] 'Automatización: Generar y enviar Carta de culminación de tesis' (ID:82) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Automatización de acceso alumno post-pago' (ID:78) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Flujo de revisión de láminas de disertación' (ID:94) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Personalizar imagen de WhatsApp' (ID:98) → chatwoot | La descripción involucra gestión de conversaciones, atención al cliente o canales de comunicación. C
+- [2026-03-30 17:08] 'Automatización de enlaces de pago personalizados vía Bot para Admisiones' (ID:90) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Automatización de Seguimiento a Nuevos Inscritos' (ID:60) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-03-30 17:08] 'Contrato enviado por Whatsapp desde cloudbeds' (ID:117) → chatwoot | La descripción involucra gestión de conversaciones, atención al cliente o canales de comunicación. C
+- [2026-03-31 06:00] 'Error flujo n8n: Actualización mov. bancarios Mercury' (ID:147) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-04-06 08:00] 'Habilitar integración de Facebook Messenger en Chatwoot' (ID:148) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p
+- [2026-04-06 16:00] 'Reactivar flujo HeyGen N8N para videos' (ID:149) → n8n | La descripción indica un flujo de automatización, sincronización o integración entre sistemas. n8n p

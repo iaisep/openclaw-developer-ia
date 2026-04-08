@@ -1,0 +1,10 @@
+- [2026-03-30 13:17] Proyecto: "Error en creación de contenidos académicos en Odoo" (ID: 141) | Fuente: pote tarea #1297
+- [2026-03-30 13:24] Proyecto: "Automatización de análisis de logs de Odoo16" (ID: 142) | Fuente: incidencias tarea #1298
+- [2026-03-30 13:25] Proyecto: "Error en creación de contenidos académicos en Odoo" (ID: 143) | Fuente: pote tarea #1297
+- [2026-03-30 15:20] Proyecto: "Error en automatización de logs Odoo16" (ID: 144) | Fuente: pote tarea #1315
+- [2026-03-30 15:22] Proyecto: "Error en creación de contenido Odoo Académico" (ID: 145) | Fuente: incidencias tarea #1314
+- [2026-03-30 16:00] Proyecto: "Implementación Módulo MET Titulación en Odoo 16" (ID: 146) | Fuente: pote tarea #1330
+- [2026-03-31 06:00] Proyecto: "Error flujo n8n: Actualización mov. bancarios Mercury" (ID: 147) | Fuente: incidencias tarea #1426
+- [2026-04-06 08:00] Proyecto: "Habilitar integración de Facebook Messenger en Chatwoot" (ID: 148) | Fuente: pote tarea #1434
+- [2026-04-06 16:00] Proyecto: "Reactivar flujo HeyGen N8N para videos" (ID: 149) | Fuente: pote tarea #1444
+- [2026-04-07 15:44] Proyecto: "Falla de Tracking Mautic en embudos de nutrición" (ID: 150) | Fuente: incidencias tarea #1153

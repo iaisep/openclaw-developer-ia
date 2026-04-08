@@ -1,0 +1,520 @@
+{
+  "$schema": "https://openclaw.ai/schema/openclaw.json",
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "minimax-portal": {
+        "baseUrl": "https://api.minimax.io/anthropic",
+        "apiKey": "minimax-oauth",
+        "api": "anthropic-messages",
+        "authHeader": true,
+        "models": [
+          {
+            "id": "MiniMax-M2.5",
+            "name": "MiniMax M2.5",
+            "api": "anthropic-messages",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "MiniMax-M2.1",
+            "name": "MiniMax M2.1",
+            "api": "anthropic-messages",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "MiniMax-M2.5-highspeed",
+            "name": "MiniMax M2.5 Highspeed",
+            "api": "anthropic-messages",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0.3,
+              "output": 1.2,
+              "cacheRead": 0.03,
+              "cacheWrite": 0.12
+            },
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "ollama": {
+        "baseUrl": "http://ollama-api-fw8g04s0w0kcc08008owskok:11434/v1",
+        "apiKey": "ollama-local",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "qwen2.5-7b-gpu:latest",
+            "name": "Qwen 2.5 7B Instruct Q4_K_M",
+            "api": "openai-completions",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 32768,
+            "maxTokens": 8192
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "minimax-portal/MiniMax-M2.5",
+        "fallbacks": [
+          "ollama/qwen2.5-7b-gpu:latest"
+        ]
+      },
+      "models": {
+        "minimax-portal/MiniMax-M2.5": {
+          "alias": "MiniMax"
+        },
+        "minimax-portal/MiniMax-M2.1": {
+          "alias": "MiniMax M2.1"
+        },
+        "ollama/qwen2.5-7b-gpu:latest": {
+          "alias": "Qwen 7B"
+        }
+      },
+      "workspace": "/root/.openclaw/workspace",
+      "bootstrapMaxChars": 30000,
+      "contextPruning": {
+        "mode": "cache-ttl",
+        "ttl": "30m",
+        "keepLastAssistants": 5,
+        "softTrimRatio": 0.3,
+        "hardClearRatio": 0.5,
+        "minPrunableToolChars": 30000,
+        "softTrim": {
+          "maxChars": 4000,
+          "headChars": 1500,
+          "tailChars": 1500
+        },
+        "hardClear": {
+          "enabled": true,
+          "placeholder": "[Contenido antiguo limpiado — ver memory/ para contexto guardado]"
+        }
+      },
+      "compaction": {
+        "mode": "safeguard",
+        "keepRecentTokens": 6000,
+        "reserveTokensFloor": 24000,
+        "maxHistoryShare": 0.85,
+        "memoryFlush": {
+          "enabled": true,
+          "softThresholdTokens": 8000,
+          "prompt": "IMPORTANTE: La sesión se va a compactar. Guarda TODAS las notas duraderas AHORA. Usa write para crear/actualizar memory/YYYY-MM-DD.md con resumen COMPLETO del día.",
+          "systemPrompt": "La sesión está cerca de compactarse. ANTES de que se pierda contexto, guarda un resumen EXHAUSTIVO en memory/YYYY-MM-DD.md."
+        }
+      },
+      "timeoutSeconds": 86400,
+      "maxConcurrent": 50,
+      "subagents": {
+        "maxConcurrent": 50,
+        "maxSpawnDepth": 3,
+        "maxChildrenPerAgent": 15,
+        "model": "minimax-portal/MiniMax-M2.5",
+        "runTimeoutSeconds": 900
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "default": true,
+        "name": "Developer IA",
+        "workspace": "/root/.openclaw/workspace",
+        "agentDir": "/root/.openclaw/agents/main/agent",
+        "heartbeat": {
+          "every": "30m",
+          "model": "ollama/qwen2.5-7b-gpu:latest",
+          "target": "last",
+          "prompt": "Lee HEARTBEAT.md si existe. Verifica tareas pendientes, en progreso con timeout vencido, y fallidas sin reintento. Si hay tareas en cola, delega al sub-agente apropiado. Si todo está en orden, responde HEARTBEAT_OK.",
+          "ackMaxChars": 300
+        },
+        "identity": {
+          "name": "Dev Lead IA",
+          "theme": "Líder del equipo de desarrollo Odoo 16 — orquesta a los agentes de desarrollo, DevOps e incidencias",
+          "emoji": "🏗️"
+        },
+        "groupChat": {
+          "mentionPatterns": [
+            "@developer-ia",
+            "@dev-ia",
+            "@openclaw-developer-ia"
+          ]
+        },
+        "subagents": {
+          "allowAgents": [
+            "*"
+          ]
+        },
+        "sandbox": {
+          "mode": "off"
+        },
+        "tools": {
+          "allow": [
+            "group:fs",
+            "group:runtime",
+            "group:sessions",
+            "sessions_spawn",
+            "sessions_send",
+            "sessions_list",
+            "sessions_history",
+            "group:web",
+            "exec"
+          ],
+          "exec": {
+            "ask": "off"
+          }
+        }
+      },
+      {
+        "id": "dev-odoo-github",
+        "name": "Dev Odoo GitHub",
+        "workspace": "/root/.openclaw/workspaces/dev-odoo-github",
+        "agentDir": "/root/.openclaw/agents/dev-odoo-github/agent",
+        "identity": {
+          "name": "Dev Odoo GitHub",
+          "theme": "Desarrollador Odoo 16 — flujo GitHub → DEVMain_Latest → Jenkins → DEV",
+          "emoji": "💻"
+        },
+        "sandbox": {
+          "mode": "off"
+        },
+        "tools": {
+          "allow": [
+            "group:fs",
+            "group:runtime",
+            "group:sessions",
+            "group:web",
+            "exec"
+          ],
+          "exec": {
+            "ask": "off"
+          }
+        }
+      },
+      {
+        "id": "dev-odoo-local",
+        "name": "Dev Odoo Local",
+        "workspace": "/root/.openclaw/workspaces/dev-odoo-local",
+        "agentDir": "/root/.openclaw/agents/dev-odoo-local/agent",
+        "identity": {
+          "name": "Dev Odoo Local",
+          "theme": "Desarrollador Odoo 16 — trabaja en odoo-migration y exporta cambios a /home/maikel/cambios_odoo_local",
+          "emoji": "🔧"
+        },
+        "sandbox": {
+          "mode": "off"
+        },
+        "tools": {
+          "allow": [
+            "group:fs",
+            "group:runtime",
+            "group:sessions",
+            "group:web",
+            "exec"
+          ],
+          "exec": {
+            "ask": "off"
+          }
+        }
+      },
+      {
+        "id": "devops-odoo",
+        "name": "DevOps Odoo",
+        "workspace": "/root/.openclaw/workspaces/devops-odoo",
+        "agentDir": "/root/.openclaw/agents/devops-odoo/agent",
+        "heartbeat": {
+          "every": "60m",
+          "model": "ollama/qwen2.5-7b-gpu:latest",
+          "target": "none",
+          "prompt": "Sigue el flujo completo del SOUL.md: PASO 0: verifica si DEVMain_Latest tiene commits adelante de main. Si los tiene y no hay PR abierto, crea el PR automáticamente. FASE 1: analiza el diff del PR, evalúa criterios y aprueba o cierra con comentario. FASE 2: tras el merge, espera 3 minutos y valida deploy en producción (Jenkins, contenedor odoo-app-prod, logs, HTTP, upgrade RPC si aplica). Si no hay commits nuevos en DEVMain_Latest ni PRs pendientes, responde HEARTBEAT_OK.",
+          "ackMaxChars": 500
+        },
+        "identity": {
+          "name": "DevOps Odoo",
+          "theme": "Revisión de Pull Requests DEVMain_Latest → main, aprobación/rechazo con criterio técnico",
+          "emoji": "🚀"
+        },
+        "sandbox": {
+          "mode": "off"
+        },
+        "tools": {
+          "allow": [
+            "group:fs",
+            "group:runtime",
+            "group:sessions",
+            "group:web",
+            "exec"
+          ],
+          "exec": {
+            "ask": "off"
+          }
+        }
+      },
+      {
+        "id": "dev-validator-deploydev",
+        "name": "Dev Validator DeployDev",
+        "workspace": "/root/.openclaw/workspaces/dev-validator-deploydev",
+        "agentDir": "/root/.openclaw/agents/dev-validator-deploydev/agent",
+        "identity": {
+          "name": "Dev Validator DeployDev",
+          "theme": "Validación post-deploy en DEV — verifica Jenkins, contenedor Odoo, logs y HTTP tras cada push",
+          "emoji": "🔍"
+        },
+        "sandbox": {
+          "mode": "off"
+        },
+        "tools": {
+          "allow": [
+            "group:fs",
+            "group:runtime",
+            "group:sessions",
+            "group:web",
+            "exec"
+          ],
+          "exec": {
+            "ask": "off"
+          }
+        }
+      },
+      {
+        "id": "dev-distrib-local",
+        "name": "Dev Distrib Local",
+        "workspace": "/root/.openclaw/workspaces/dev-distrib-local",
+        "agentDir": "/root/.openclaw/agents/dev-distrib-local/agent",
+        "identity": {
+          "name": "Dev Distrib Local",
+          "theme": "Distribuidor de cambios locales — recoge de /mnt/cambios-odoo-local y hace push a DEVMain_Latest",
+          "emoji": "📦"
+        },
+        "sandbox": {
+          "mode": "off"
+        },
+        "tools": {
+          "allow": [
+            "group:fs",
+            "group:runtime",
+            "group:sessions",
+            "group:web",
+            "exec"
+          ],
+          "exec": {
+            "ask": "off"
+          }
+        }
+      },
+      {
+        "id": "incidencias-odoo",
+        "name": "Incidencias Odoo",
+        "workspace": "/root/.openclaw/workspaces/incidencias-odoo",
+        "agentDir": "/root/.openclaw/agents/incidencias-odoo/agent",
+        "heartbeat": {
+          "every": "30m",
+          "model": "ollama/qwen2.5-7b-gpu:latest",
+          "target": "none",
+          "prompt": "Consulta la réplica PostgreSQL en .57: SSH -i /.keys/odoo-dev.pem root@189.195.191.16 docker exec postgres-replica-i4s8o8000kc040cgwcwowwwc psql -U odoo -d UisepFinal. Lee tareas de project_id=53 stage_id=564 (Pendiente). Para cada tarea: analiza la descripción. Si es resoluble via RPC contra app.universidadisep.com resuélvela y muévela a stage 565 (Listo). Si requiere código muévela a stage 703 (Enviado a Proyecto) con nota técnica. Si no hay tareas pendientes, responde HEARTBEAT_OK.",
+          "ackMaxChars": 600
+        },
+        "identity": {
+          "name": "Incidencias Odoo",
+          "theme": "Atención de tickets helpdesk en Odoo espejo — resuelve via RPC o escala a desarrollo",
+          "emoji": "🎫"
+        },
+        "sandbox": {
+          "mode": "off"
+        },
+        "tools": {
+          "allow": [
+            "group:fs",
+            "group:runtime",
+            "group:sessions",
+            "group:web",
+            "exec"
+          ],
+          "exec": {
+            "ask": "off"
+          }
+        }
+      },
+      {
+        "id": "dev-project-creator",
+        "name": "Dev Project Creator",
+        "workspace": "/root/.openclaw/workspaces/dev-project-creator",
+        "agentDir": "/root/.openclaw/agents/dev-project-creator/agent",
+        "heartbeat": {
+          "every": "60m",
+          "model": "ollama/qwen2.5-7b-gpu:latest",
+          "target": "none",
+          "prompt": "Eres Dev Project Creator 🏗️. Lee SOUL.md y RULES.md. FUENTE 1 — Incidencias TI: consulta la réplica PostgreSQL en .57 (SSH -i /.keys/odoo-dev.pem root@189.195.191.16 docker exec postgres-replica-i4s8o8000kc040cgwcwowwwc psql -U odoo -d UisepFinal). Busca tareas de project_id=53 stage_id=703 donde el ÚNICO asignado sea el usuario Administrator (res_users_id=2). FUENTE 2 — Pote: busca tareas de project_id=36 active=true. Por cada tarea encontrada: 1) verifica anti-duplicados en project.project, 2) crea el proyecto con 6 stages (Análisis, Diseño, Desarrollo, Pruebas/QA, Producción, Cerrado), 3) crea tarea 'Análisis de requerimientos y alcance' con la descripción original en stage Análisis, 4) limpia la tarea fuente: Incidencias→reasigna a Maikel (uid=5064), Pote→archiva con 'creado como proyecto'. Carga la skill crear-proyecto-desde-fuente para el procedimiento completo. Si no hay tareas, responde HEARTBEAT_OK.",
+          "ackMaxChars": 800
+        },
+        "identity": {
+          "name": "Dev Project Creator",
+          "theme": "Convierte solicitudes complejas de TI en proyectos de desarrollo de software en Odoo",
+          "emoji": "🏗️"
+        },
+        "sandbox": {
+          "mode": "off"
+        },
+        "tools": {
+          "allow": [
+            "group:fs",
+            "group:runtime",
+            "group:sessions",
+            "group:web",
+            "exec"
+          ],
+          "exec": {
+            "ask": "off"
+          }
+        }
+      },
+      {
+        "id": "dev-project-architect",
+        "name": "Dev Project Architect",
+        "workspace": "/root/.openclaw/workspaces/dev-project-architect",
+        "agentDir": "/root/.openclaw/agents/dev-project-architect/agent",
+        "heartbeat": {
+          "every": "60m",
+          "model": "ollama/qwen2.5-7b-gpu:latest",
+          "target": "none",
+          "prompt": "Eres Dev Project Architect 🏛️. Lee SOUL.md y RULES.md. Busca en Odoo proyectos activos con etiqueta Tecnología (tag_id=1) que NO tengan etiqueta de herramienta (IDs 24-29). Por cada uno: notifica inicio en chatter, analiza la descripción y la tarea 'Análisis de requerimientos y alcance', decide la herramienta óptima (n8n=24, odoo=25, chatwoot=26, mautic=27, wordpress=28, desarrollos-apis=29) considerando SIEMPRE las limitaciones de Odoo 16 (OOM kill, workers idle, bucles de fallo, sobrecarga slide/mail, memoria compartida, arquitectura monolítica). Odoo es la ÚLTIMA opción. Asigna la etiqueta, documenta la decisión en chatter con justificación técnica y nota sobre Odoo 16. Carga la skill analizar-proyecto para el procedimiento completo. Si no hay proyectos pendientes, responde HEARTBEAT_OK.",
+          "ackMaxChars": 800
+        },
+        "identity": {
+          "name": "Dev Project Architect",
+          "theme": "Analiza proyectos TI y asigna la herramienta tecnológica óptima del stack, priorizando alternativas a Odoo",
+          "emoji": "🏛️"
+        },
+        "sandbox": {
+          "mode": "off"
+        },
+        "tools": {
+          "allow": [
+            "group:fs",
+            "group:runtime",
+            "group:sessions",
+            "group:web",
+            "exec"
+          ],
+          "exec": {
+            "ask": "off"
+          }
+        }
+      }
+    ]
+  },
+  "tools": {
+    "sessions": {
+      "visibility": "all"
+    },
+    "agentToAgent": {
+      "enabled": true,
+      "allow": [
+        "main",
+        "dev-odoo-github",
+        "dev-odoo-local",
+        "dev-distrib-local",
+        "dev-validator-deploydev",
+        "devops-odoo",
+        "incidencias-odoo"
+      ]
+    }
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "channels": {
+    "telegram": {
+      "enabled": false,
+      "dmPolicy": "pairing",
+      "groupPolicy": "allowlist",
+      "streaming": {
+        "mode": "partial"
+      }
+    },
+    "mattermost": {
+      "enabled": false
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "lan",
+    "controlUi": {
+      "allowedOrigins": [
+        "https://agentesdev.universidadisep.com",
+        "http://localhost:18789",
+        "http://localhost:18797",
+        "http://127.0.0.1:18789",
+        "http://127.0.0.1:18797"
+      ],
+      "dangerouslyAllowHostHeaderOriginFallback": true,
+      "dangerouslyDisableDeviceAuth": true
+    },
+    "auth": {
+      "mode": "token",
+      "token": "${OPENCLAW_GATEWAY_TOKEN}"
+    },
+    "trustedProxies": [
+      "192.168.100.57",
+      "192.168.100.58",
+      "127.0.0.1",
+      "172.17.0.0/16",
+      "10.0.0.0/8"
+    ],
+    "tailscale": {
+      "mode": "off"
+    }
+  },
+  "plugins": {
+    "entries": {
+      "minimax": {
+        "enabled": true
+      },
+      "ollama": {
+        "enabled": true
+      }
+    }
+  },
+  "meta": {
+    "lastTouchedVersion": "2026.4.8",
+    "lastTouchedAt": "2026-04-08T19:02:37.055Z"
+  }
+}
