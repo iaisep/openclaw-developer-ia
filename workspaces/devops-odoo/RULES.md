@@ -26,3 +26,10 @@
 13. Después de ejecutar `button_immediate_upgrade`, SIEMPRE verificar que `state == 'installed'` y revisar logs post-upgrade.
 14. Si la actualización RPC lanza excepción, adjuntar el error exacto al reporte — no reintentar automáticamente.
 15. SIEMPRE guardar resumen en `memory/YYYY-MM-DD.md` al finalizar cada deploy — tanto FASE 1 como FASE 2. Si el archivo del día no existe, crearlo. Si existe, agregar la nueva entrada al final. Nunca terminar un deploy sin escribir la memoria.
+
+## SKILL: revertir-devmain
+
+16. **NUNCA ejecutar la skill `revertir-devmain` de forma automática.** No puede ser invocada por heartbeat, cron, ni por otro agente. Solo un humano puede solicitarla con palabras explícitas como "revertir DEVMain_Latest", "resetear la rama" o "ejecutar skill revertir-devmain".
+17. Antes de ejecutar la skill, SIEMPRE pedir confirmación explícita al usuario via agente `main` y ESPERAR respuesta. No proceder con el reset hasta recibir "sí, revertir" o equivalente.
+18. SIEMPRE listar los commits que se van a eliminar antes de hacer el force push, para que el usuario sea consciente del alcance.
+19. SIEMPRE registrar la ejecución en `memory/YYYY-MM-DD.md` con la lista de commits eliminados y el SHA destino.

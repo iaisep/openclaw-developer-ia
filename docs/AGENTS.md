@@ -216,9 +216,15 @@ flowchart TD
 
 ## 🚀 devops-odoo
 
-**Propósito:** Revisar Pull Requests de `DEVMain_Latest → main` y validar el deploy en Producción.
+**Propósito:** Revisar Pull Requests de `DEVMain_Latest → main`, validar el deploy en Producción y gestionar emergencias en la rama de desarrollo.
 
 **Heartbeat:** 60 min (FASE 1 automática)
+
+**Skills disponibles:**
+
+| Skill | Invocación | Automática |
+|-------|-----------|-----------|
+| `revertir-devmain` | Solo por humano | ⛔ Nunca |
 
 ```mermaid
 flowchart TD
@@ -276,6 +282,41 @@ flowchart TD
 |----------|--------|-----------|
 | DEV | SSH a 189.195.191.16 | `odoo_latest-w8co804sck0ssc0swkcgw488` |
 | Producción | LOCAL (sin SSH) | `odoo-app-prod` |
+
+### Skill: revertir-devmain
+
+Revierte `DEVMain_Latest` al último commit de `main`. Se usa cuando hay commits incorrectos o no autorizados en la rama de desarrollo.
+
+```mermaid
+flowchart TD
+    HUMAN["👤 Humano solicita:\n'revertir DEVMain_Latest'"]
+    HUMAN --> CONFIRM["devops-odoo pide confirmación\n⛔ ESPERA respuesta"]
+    CONFIRM --> YES{"¿Usuario\nconfirma?"}
+    YES -->|No / silencio| ABORT["🚫 Abortar\nNo hacer nada"]
+    YES -->|"sí, revertir"| LIST["Listar commits que se eliminarán\nvía GitHub API compare"]
+    LIST --> FETCH["SSH .57:\ngit fetch origin"]
+    FETCH --> RESET["git reset --hard origin/main"]
+    RESET --> PUSH["git push --force origin DEVMain_Latest"]
+    PUSH --> VERIFY["Verificar via API:\nahead_by == 0"]
+    VERIFY --> LOG["Registrar en memory/YYYY-MM-DD.md"]
+    LOG --> NOTIFY["✅ Notificar a main\ncon lista de commits eliminados"]
+
+    style ABORT fill:#dc2626,color:#fff
+    style CONFIRM fill:#d97706,color:#fff
+    style NOTIFY fill:#059669,color:#fff
+```
+
+**Cómo invocarla** — el humano debe decir explícitamente alguna de estas frases:
+- `"revertir DEVMain_Latest"`
+- `"resetear la rama de dev a main"`
+- `"limpiar DEVMain_Latest"`
+- `"ejecutar skill revertir-devmain"`
+
+**Garantías:**
+- Pide confirmación antes de ejecutar
+- Lista los commits que se eliminarán antes del force push
+- Registra la operación en memoria con los commits afectados
+- ⛔ Nunca se ejecuta por heartbeat, cron ni invocación de otro agente
 
 ---
 

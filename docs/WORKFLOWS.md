@@ -380,3 +380,47 @@ sequenceDiagram
     DevOps->>DevOps: Verifica commits pendientes
     DevOps->>DevOps: Crea/revisa/aprueba PR
 ```
+
+
+---
+
+## 8. Skill: revertir-devmain (emergencia)
+
+> Invocación exclusivamente humana. Revierte `DEVMain_Latest` al último commit de `main`.
+
+```mermaid
+sequenceDiagram
+    actor H as 👤 Humano
+    participant Main as 🏗️ main
+    participant DevOps as 🚀 devops-odoo
+    participant GH as GitHub API
+    participant S57 as 🖥️ Servidor .57
+
+    H->>Main: "revertir DEVMain_Latest"
+    Main->>DevOps: Invocar skill revertir-devmain
+
+    DevOps->>GH: GET /branches/main → último SHA
+    DevOps->>GH: GET /compare/main...DEVMain_Latest → commits a eliminar
+    DevOps->>Main: ⚠️ Solicitar confirmación\n+ lista de commits que se borrarán
+    Main->>H: Muestra commits afectados\n¿Confirmas?
+
+    alt Usuario confirma
+        H->>Main: "sí, revertir"
+        Main->>DevOps: Confirmación recibida
+        DevOps->>S57: SSH: git fetch origin
+        DevOps->>S57: SSH: git reset --hard origin/main
+        DevOps->>S57: SSH: git push --force origin DEVMain_Latest
+        DevOps->>GH: Verificar ahead_by == 0
+        DevOps->>DevOps: Registrar en memory/YYYY-MM-DD.md
+        DevOps->>Main: ✅ DEVMain_Latest sincronizada con main
+        Main->>H: Confirmación con commits eliminados
+    else Usuario cancela o no responde
+        DevOps->>Main: 🚫 Skill cancelada — sin cambios
+    end
+```
+
+**Cuándo usarla:**
+- Commits subidos por error a `DEVMain_Latest`
+- Módulos no autorizados en la rama de dev
+- Necesidad de limpiar la rama antes de un nuevo ciclo de desarrollo
+- Commits con credenciales o código problemático que no deben llegar a producción
