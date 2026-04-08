@@ -79,13 +79,16 @@ models = xmlrpc.client.ServerProxy(f"{ODOO_URL}/xmlrpc/2/object", context=ctx)
 
 ## FASE 1 — Evaluación del Pull Request
 
-### Paso 1.0 — Crear PR si no existe
+### Paso 1.0 — Verificar commits y SOLICITAR AUTORIZACIÓN al usuario
+
+> ⛔ **REGLA CRÍTICA**: NUNCA crear ni revisar un PR sin autorización explícita del usuario.
+> El flujo obligatorio es: verificar → informar → pedir permiso → **ESPERAR** → ejecutar solo si autorizan.
 
 ```bash
 openclaw agent --agent main --message "🚀 [devops-odoo] Iniciando — verificando commits pendientes entre DEVMain_Latest y main..."
 ```
 
-Primero verificar si hay PR abierto de `DEVMain_Latest` → `main`:
+**Paso 1.0.1 — Verificar si ya existe un PR abierto:**
 
 ```bash
 curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
@@ -93,15 +96,47 @@ curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
   | python3 -c "import sys,json; prs=json.load(sys.stdin); print(prs[0]['number'] if prs else 'NONE')"
 ```
 
-Si no hay PR abierto, verificar si hay commits en `DEVMain_Latest` que no están en `main`:
+- Si ya existe un PR abierto → **no crear uno nuevo**, reportar el número existente e ir directo al Paso 1.1 para revisarlo.
+
+**Paso 1.0.2 — Si no hay PR, verificar commits pendientes y listarlos:**
 
 ```bash
 curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
   "https://api.github.com/repos/Universidad-ISEP/Odoo16UISEP/compare/main...DEVMain_Latest" \
-  | python3 -c "import sys,json; d=json.load(sys.stdin); print('ahead_by:', d['ahead_by'], '| commits:', len(d['commits']))"
+  | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+ahead = d['ahead_by']
+commits = d['commits']
+print(f'ahead_by: {ahead}')
+for c in commits:
+    print(f'  - {c[\"sha\"][:7]} {c[\"commit\"][\"message\"].splitlines()[0]}')
+"
 ```
 
-Si `ahead_by > 0` → crear el PR automáticamente:
+**Paso 1.0.3 — Actuar según el resultado:**
+
+- Si `ahead_by == 0` → no hay cambios pendientes:
+  ```bash
+  openclaw agent --agent main --message "🚀 [devops-odoo] Sin cambios pendientes. DEVMain_Latest está al día con main."
+  ```
+  Responder `HEARTBEAT_OK` y **terminar**.
+
+- Si `ahead_by > 0` y no hay PR abierto → **solicitar autorización al usuario y DETENERSE**:
+  ```bash
+  openclaw agent --agent main --message "⏳ [devops-odoo] CAMBIOS LISTOS PARA PRODUCCIÓN — REQUIERE AUTORIZACIÓN.
+
+  Hay <N> commit(s) en DEVMain_Latest pendientes de llegar a producción:
+  <lista de commits: sha + mensaje>
+
+  Para proceder necesito tu autorización.
+  Responde 'sí, crear PR' para que cree y revise el Pull Request.
+  Responde 'no' para dejarlo pendiente hasta la próxima revisión."
+  ```
+
+  ⛔ **DETENER AQUÍ. No crear el PR, no revisar nada, no hacer ninguna acción adicional hasta recibir respuesta explícita del usuario.**
+
+**Paso 1.0.4 — Solo si el usuario responde afirmativamente**, crear el PR:
 
 ```bash
 curl -s -X POST \
@@ -112,14 +147,12 @@ curl -s -X POST \
     "title": "Deploy a producción — DEVMain_Latest → main",
     "head": "DEVMain_Latest",
     "base": "main",
-    "body": "PR generado automáticamente por devops-odoo.\n\nCambios pendientes de deploy a producción desde DEVMain_Latest."
+    "body": "PR generado por devops-odoo con autorización del usuario.\n\nCambios pendientes de deploy a producción desde DEVMain_Latest."
   }' | python3 -c "import sys,json; pr=json.load(sys.stdin); print('PR creado:', pr['number'], pr['html_url'])"
 ```
 
-Si `ahead_by == 0` → no hay cambios pendientes, responder `HEARTBEAT_OK`.
-
 ```bash
-openclaw agent --agent main --message "🚀 [devops-odoo] PR creado (#<numero>). Iniciando revisión del código..."
+openclaw agent --agent main --message "🚀 [devops-odoo] PR creado (#<numero>) con tu autorización. Iniciando revisión del código..."
 ```
 
 ### Paso 1.1 — Obtener PRs abiertos

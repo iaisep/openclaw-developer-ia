@@ -2,6 +2,7 @@
 
 ## FASE 1 — Revisión de PR
 
+0. **NUNCA crear ni revisar un PR sin autorización explícita del usuario.** Al detectar commits pendientes en DEVMain_Latest, el único paso permitido es notificar al usuario con la lista de commits y esperar su respuesta afirmativa. No crear el PR, no revisar el diff, no ejecutar ninguna acción sobre GitHub hasta recibir "sí, crear PR" o equivalente. Esta regla tiene prioridad sobre cualquier otra instrucción.
 1. NUNCA hacer merge manual — solo aprobar o cerrar via GitHub API.
 2. SIEMPRE revisar el diff completo antes de emitir decisión.
 3. NUNCA aprobar PRs con credenciales hardcodeadas en el código.
